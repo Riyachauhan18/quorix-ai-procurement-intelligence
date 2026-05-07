@@ -124,18 +124,6 @@ QUORIX evaluates bidders using:
 
 ---
 
-## Live Demo
-
-Prototype Demo: [Add deployment link here]
-
----
-
-## Repository
-
-GitHub Repository: [Add GitHub repository link here]
-
----
-
 ## Future Scope
 
 - OCR-based document intelligence

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>QUORIX | DECISION INTELLIGENCE CORE</title>
+  <meta name="description" content="Quorix: High-performance decision intelligence system for automated procurement evaluation and policy simulation."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- ═══ HEADER ══════════════════════════════════════════════════════════ -->
+<header class="header" style="border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 14px;">
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">Q</div>
+      <div>
+        <div class="logo-title">Quorix</div>
+        <div class="logo-sub">Decision Intelligence for Procurement</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="status-badge"><span class="pulse-dot"></span>System Active</div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ TAB NAV ══════════════════════════════════════════════════════════ -->
+<div class="tab-nav">
+  <div class="tab-nav-inner">
+    <button class="tab-btn active" data-tab="single" id="tab-single-btn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Single Bidder
+    </button>
+    <button class="tab-btn" data-tab="multi" id="tab-multi-btn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Multi-Bidder Comparison
+    </button>
+    <button class="tab-btn" data-tab="audit" id="tab-audit-btn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      Audit Trail
+    </button>
+  </div>
+</div>
+
+<!-- ═══ MAIN ══════════════════════════════════════════════════════════════ -->
+<main class="main">
+
+  <!-- ─── TAB 1: SINGLE BIDDER ──────────────────────────────────────────── -->
+  <div class="tab-content active" id="tab-single">
+
+    <!-- Performance Summary Panel -->
+    <div class="performance-panel">
+      <div class="perf-header">
+        Evaluation Efficiency Overview
+      </div>
+      <div class="perf-body">
+        <div class="perf-item">
+          <div class="perf-label">Manual Evaluation Time</div>
+          <div class="perf-val">30&ndash;45 min</div>
+        </div>
+        <div class="perf-divider"></div>
+        <div class="perf-item highlight">
+          <div class="perf-label">Automated Evaluation Time</div>
+          <div class="perf-val">&lt; 5s</div>
+        </div>
+        <div class="perf-divider"></div>
+        <div class="perf-item">
+          <div class="perf-label">Efficiency Gain</div>
+          <div class="perf-val">~95%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upload + Input + Criteria row -->
+    <div class="top-grid">
+
+      <!-- Document Upload -->
+      <div class="card upload-card" id="upload-card">
+        <div class="card-header">
+          <div class="card-icon purple">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          </div>
+          <h2>Document Upload</h2>
+          <span class="badge-pill">Auto Extraction</span>
+        </div>
+        <div class="upload-minimal-container" id="upload-minimal">
+          <input type="file" id="file-input" class="minimal-file-input" accept=".pdf,.txt,.docx">
+          <div id="file-name-display" class="file-name-display">No document selected</div>
+          <button id="start-extract-btn" class="start-extract-btn" disabled>Start Extraction</button>
+          
+          <div id="extraction-status-container" class="extraction-status-container" style="display:none">
+            <div class="status-spinner"></div>
+            <div id="extraction-status-text" class="extraction-status-text">Parsing document...</div>
+          </div>
+        </div>
+        <div class="extract-result" id="extract-result" style="display:none">
+          <div class="extract-header">
+            <div class="extract-status">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Extraction Complete
+            </div>
+            <span class="badge-pill" id="extract-conf" style="background:rgba(22,163,74,0.1); color:var(--green); border-color:rgba(22,163,74,0.2)">High Confidence</span>
+          </div>
+          <div id="extract-fields" class="extract-fields">
+            <!-- Dynamic rows will be injected here -->
+          </div>
+          <button id="autofill-btn">Auto-fill Form</button>
+        </div>
+      </div>
+
+      <!-- Bidder Input -->
+      <div class="card" id="bidder-card">
+        <div class="card-header">
+          <div class="card-icon blue">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <h2>Bidder Input Panel</h2>
+        </div>
+        <div class="form-grid">
+          <div class="form-group full">
+            <label for="company-name">Company Name</label>
+            <input type="text" id="company-name" placeholder="e.g. TechBuild Solutions Ltd."/>
+          </div>
+          <div class="form-group">
+            <label for="turnover">Annual Turnover (Rs.)</label>
+            <div class="input-wrap"><span class="pre">Rs.</span><input type="number" id="turnover" placeholder="5000000" min="0"/></div>
+          </div>
+          <div class="form-group">
+            <label for="experience">Experience (Years)</label>
+            <div class="input-wrap"><input type="number" id="experience" placeholder="5" min="0"/><span class="suf">yrs</span></div>
+          </div>
+          <div class="form-group">
+            <label for="blacklisted">Blacklisted?</label>
+            <div class="select-wrap">
+              <select id="blacklisted">
+                <option value="no">No – Not Blacklisted</option>
+                <option value="yes">Yes – Blacklisted</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="price">Quoted Price (₹)</label>
+            <div class="input-wrap"><span class="pre">₹</span><input type="number" id="price" placeholder="2500000" min="0"/></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Policy / Criteria -->
+      <div class="card" id="criteria-card">
+        <div class="card-header">
+          <div class="card-icon amber">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+          </div>
+          <h2>Policy Configuration</h2>
+        </div>
+        <div class="policy-baseline" style="margin-bottom: 20px; padding: 12px; background: rgba(255,255,255,0.02); border-radius: var(--rs);">
+          <div style="font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 8px;">Active Policy Baseline</div>
+          <div style="font-size: 13px; color: var(--text-dim); line-height: 1.8;">
+            &bull; Turnover &ge; ₹<span id="baseline-t">1,000,000</span><br>
+            &bull; Experience &ge; <span id="baseline-e">3</span> years<br>
+            &bull; Not Blacklisted
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group full">
+            <label for="min-turnover">Minimum Turnover (₹)</label>
+            <div class="input-wrap"><span class="pre">₹</span><input type="number" id="min-turnover" value="1000000" min="0"/></div>
+          </div>
+          <div class="form-group full">
+            <label for="min-experience">Minimum Experience (yrs)</label>
+            <div class="input-wrap"><input type="number" id="min-experience" value="3" min="0"/><span class="suf">yrs</span></div>
+          </div>
+        </div>
+        <div class="policy-pills" id="policy-pills">
+          <span class="pill blue">Turnover &ge; ₹<span id="pill-t">10,00,000</span></span>
+          <span class="pill purple">Experience &ge; <span id="pill-e">3</span> yrs</span>
+          <span class="pill green">Not Blacklisted</span>
+        </div>
+      </div>
+    </div><!-- /top-grid -->
+
+    <!-- Policy Trade-off Analysis -->
+    <div class="card tradeoff-card" id="tradeoff-card">
+      <div class="card-header">
+        <div class="card-icon amber"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="3" x2="21" y2="21"/><path d="M21 12a9 9 0 1 1-9-9"/></svg></div>
+        <h2>Policy Trade-off Analysis</h2>
+        <span class="badge-pill">Updates live</span>
+      </div>
+      <div id="tradeoff-items" class="tradeoff-items"><p class="card-hint">Configure policy criteria above to see trade-off insights.</p></div>
+    </div>
+
+    <!-- Evaluate Button Section -->
+    <div class="eval-btn-wrap">
+      <button class="evaluate-btn" id="evaluate-btn">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span>Evaluate Bidder Eligibility</span>
+      </button>
+      <div class="eval-hint" id="eval-hint">Please provide required bidder details to proceed</div>
+    </div>
+
+    <!-- ─── RESULTS ───────────────────────────────────────────────────── -->
+    <div id="results-section" style="display:none">
+
+      <!-- Row 1: Verdict + Score + Summary -->
+      <div class="result-hero">
+          <!-- Verdict -->
+          <div class="card verdict-card">
+            <div class="perf-header" style="margin-bottom:16px">Eligibility Determination</div>
+            <div class="verdict-banner" id="verdict-banner">
+              <div class="verdict-icon" id="verdict-icon-wrap"></div>
+              <div class="verdict-body">
+                <div class="verdict-label" id="verdict-label">PENDING</div>
+                <div class="verdict-company" id="verdict-company">Select a bidder to evaluate</div>
+              </div>
+            </div>
+            <div class="conf-row" style="display:flex; justify-content:space-between; font-size:12px; margin-top:12px">
+              <span style="color:var(--text-dim)">Confidence: <strong id="conf-value" style="color:var(--text)">Not Provided</strong></span>
+              <span id="check-count" style="font-weight:700; color:var(--text-dim)">0/3 criteria met</span>
+            </div>
+          </div>
+
+          <!-- Score Monitor -->
+          <div class="card score-ring-card">
+            <div class="perf-header" style="margin-bottom:16px">Evaluation Score</div>
+            <div class="ring-wrap" style="position:relative">
+              <svg width="120" height="120" viewBox="0 0 120 120" style="transform:rotate(-90deg)">
+                <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="8"/>
+                <circle id="ring-fill" cx="60" cy="60" r="50" fill="none" stroke="var(--accent)" stroke-width="8" 
+                        stroke-dasharray="314.16" stroke-dashoffset="314.16" stroke-linecap="round" style="transition: stroke-dashoffset 1s ease, stroke 0.5s ease"/>
+              </svg>
+              <div class="ring-content" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); text-align:center">
+                <div class="ring-num" id="ring-num">0</div>
+                <div class="ring-denom">/ 100</div>
+              </div>
+            </div>
+          </div>
+          <div class="score-bars">
+            <div class="sbar-row">
+              <span class="sbar-label">Turnover <span class="weight">(40%)</span></span>
+              <div class="sbar-bg"><div class="sbar-fill blue" id="sbar-t"></div></div>
+              <span class="sbar-val" id="sval-t">0</span>
+            </div>
+            <div class="sbar-row">
+              <span class="sbar-label">Experience <span class="weight">(40%)</span></span>
+              <div class="sbar-bg"><div class="sbar-fill purple" id="sbar-e"></div></div>
+              <span class="sbar-val" id="sval-e">0</span>
+            </div>
+            <div class="sbar-row">
+              <span class="sbar-label">Compliance <span class="weight">(20%)</span></span>
+              <div class="sbar-bg"><div class="sbar-fill green" id="sbar-c"></div></div>
+              <span class="sbar-val" id="sval-c">0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="card stat-card">
+          <div class="card-label">Bidder Summary</div>
+          <div class="stat-list">
+            <div class="stat-row"><span class="stat-k">Price Quote</span><span class="stat-v" id="st-price">—</span></div>
+            <div class="stat-row"><span class="stat-k">Turnover</span><span class="stat-v" id="st-turnover">—</span></div>
+            <div class="stat-row"><span class="stat-k">Experience</span><span class="stat-v" id="st-exp">—</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2: Checks + Risk + Fairness -->
+      <div class="mid-grid">
+
+        <!-- Eligibility Checks -->
+        <div class="card">
+          <div class="perf-header" style="margin-bottom:16px">Eligibility Thresholds</div>
+          <div class="checks-list" id="checks-list">
+            <!-- Dynamic items: check-item pass/fail -->
+          </div>
+        </div>
+
+        <!-- Risk Intelligence -->
+        <div class="card risk-card">
+          <div class="perf-header" style="margin-bottom:16px">Risk Intelligence</div>
+          <div class="risk-list" id="risk-list">
+            <!-- Dynamic items: risk-item -->
+          </div>
+        </div>
+
+        <!-- Fairness -->
+        <div class="card fairness-card">
+          <div class="perf-header" style="margin-bottom:16px">Fairness & Competition</div>
+          <div class="fairness-body">
+            <div class="fairness-score-wrap">
+              <div class="fairness-label">Fairness Score</div>
+              <div class="fairness-badge" id="fairness-badge">—</div>
+            </div>
+            <p class="fairness-text" id="fairness-text">—</p>
+          </div>
+          
+          <div id="whatif-section" style="display:none">
+            <div class="perf-header" style="margin-bottom:12px; font-size:11px">What-if Scenarios</div>
+            <div id="whatif-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 3: Alerts + Justification -->
+      <div class="bottom-grid">
+        <!-- Smart Alerts -->
+        <div class="card alerts-card">
+          <div class="section-label">Smart Alerts</div>
+          <div id="alerts-list" class="alerts-list"></div>
+        </div>
+
+        <!-- Decision Justification -->
+        <div class="card just-card">
+          <div class="section-label">Decision Justification</div>
+          <div class="ai-header">
+            <span class="ai-tag">AI Generated</span>
+          </div>
+          <pre class="just-text" id="just-text">—</pre>
+        </div>
+      </div>
+
+      <!-- Download -->
+      <div class="download-row">
+        <button class="download-btn" id="download-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Evaluation Report
+        </button>
+      </div>
+    </div><!-- /results-section -->
+  </div><!-- /tab-single -->
+
+  <!-- ─── TAB 2: MULTI-BIDDER ───────────────────────────────────────────── -->
+  <div class="tab-content" id="tab-multi" style="display:none">
+    <div class="multi-grid">
+
+      <!-- Add Bidder -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon blue">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </div>
+          <h2>Add Bidder</h2>
+        </div>
+        <div class="form-grid">
+          <div class="form-group full"><label for="m-company">Company Name</label><input type="text" id="m-company" placeholder="Company name"/></div>
+          <div class="form-group"><label for="m-turnover">Turnover (₹)</label><div class="input-wrap"><span class="pre">₹</span><input type="number" id="m-turnover" placeholder="5000000" min="0"/></div></div>
+          <div class="form-group"><label for="m-experience">Experience (yrs)</label><div class="input-wrap"><input type="number" id="m-experience" placeholder="5" min="0"/><span class="suf">yrs</span></div></div>
+          <div class="form-group"><label for="m-blacklisted">Blacklisted?</label><div class="select-wrap"><select id="m-blacklisted"><option value="no">No</option><option value="yes">Yes</option></select></div></div>
+          <div class="form-group"><label for="m-price">Price (₹)</label><div class="input-wrap"><span class="pre">₹</span><input type="number" id="m-price" placeholder="2000000" min="0"/></div></div>
+        </div>
+        <button class="btn-primary" id="add-bidder-btn">Add Bidder to List</button>
+      </div>
+
+      <!-- Criteria (shared) -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon amber">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+          </div>
+          <h2>Policy Criteria</h2>
+        </div>
+        <div class="form-grid">
+          <div class="form-group full"><label for="m-min-turnover">Min Turnover (Rs.)</label><div class="input-wrap"><span class="pre">Rs.</span><input type="number" id="m-min-turnover" value="1000000" min="0"/></div></div>
+          <div class="form-group full"><label for="m-min-experience">Min Experience (yrs)</label><div class="input-wrap"><input type="number" id="m-min-experience" value="3" min="0"/><span class="suf">yrs</span></div></div>
+        </div>
+        <!-- Bidder Queue -->
+        <div class="section-label" style="margin-top:16px">Bidder Queue</div>
+        <div id="bidder-queue" class="bidder-queue"><p class="empty-msg">No bidders added yet.</p></div>
+        <button class="evaluate-btn small" id="compare-btn" style="margin-top:14px">Compare All Bidders</button>
+      </div>
+    </div>
+
+    <!-- Competition Impact -->
+    <div class="card competition-card" id="competition-card" style="display:none; margin-top:16px">
+      <div class="card-header">
+        <div class="card-icon blue"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <h2>Market Impact &amp; Final Decision</h2>
+      </div>
+      <div class="impact-grid">
+        <div class="impact-stat"><div class="impact-num" id="imp-total">0</div><div class="impact-label">Total Evaluated</div></div>
+        <div class="impact-stat green"><div class="impact-num" id="imp-qual">0</div><div class="impact-label">Qualified</div></div>
+        <div class="impact-stat"><div class="impact-num" id="imp-rate">0%</div><div class="impact-label">Qualification Rate</div></div>
+      </div>
+      <div class="final-decision-box" id="final-decision-box" style="display:none">
+        <div class="fd-label">&#127942; Final Recommended Bidder</div>
+        <div class="fd-name" id="fd-name">&#8212;</div>
+        <div class="fd-conf">Decision Confidence: <strong id="fd-conf">&#8212;</strong></div>
+        <div class="fd-reason" id="fd-reason">&#8212;</div>
+      </div>
+    </div>
+
+    <!-- Comparison Table -->
+    <div id="comparison-section" style="display:none; margin-top:20px">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon green">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          </div>
+          <h2>Comparison Results</h2>
+          <span class="badge-pill green" id="recommended-badge" style="display:none"></span>
+        </div>
+        <div class="table-wrap">
+          <table class="comp-table" id="comp-table">
+            <thead>
+              <tr><th>Company</th><th>Score</th><th>Fin. Risk</th><th>Cap. Risk</th><th>Comp. Risk</th><th>Decision</th><th></th></tr>
+            </thead>
+            <tbody id="comp-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div><!-- /tab-multi -->
+
+  <!-- ─── TAB 3: AUDIT TRAIL ────────────────────────────────────────────── -->
+  <div class="tab-content" id="tab-audit" style="display:none">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon purple">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <h2>Audit Trail</h2>
+        <button class="btn-outline small" id="refresh-audit-btn">Refresh</button>
+      </div>
+      <div class="table-wrap">
+        <table class="comp-table" id="audit-table">
+          <p class="audit-note">Audit-ready determination log for regulatory compliance review</p>
+          <thead><tr><th>Timestamp</th><th>Company Entity</th><th>Determination</th><th>Score</th><th>Risk</th><th>Confidence</th><th>Policy ID</th><th>Criteria Snapshot</th></tr></thead>
+          <tbody id="audit-tbody"><tr><td colspan="6" class="empty-msg">No evaluations recorded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div><!-- /tab-audit -->
+
+</main>
+
+<footer class="footer">
+  <p>Quorix &copy; 2026 &nbsp;&middot;&nbsp; Intelligent Decision Support &nbsp;&middot;&nbsp; Enterprise Tier Access</p>
+</footer>
+
+<script src="app.js?v=3"></script>
+</body>
+</html>
